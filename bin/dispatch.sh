@@ -88,7 +88,7 @@ jq --arg s "待签结" '.["状态"]=$s' "$JOB_JSON" > "$JOB_JSON.tmp" && mv "$JO
 # ── ⑤ 御史核验 ───────────────────────────────
 rm -f "$RECEIPT"
 log "⑤ 唤起御史核验…"
-YS_MSG="案卷 $JOB_ID：差遣单 jobs/$JOB_ID/dispatch.json，差役产物在 artifacts/$JOB_ID/，差役退出码 $RC。
+YS_MSG="案卷 ${JOB_ID}：差遣单 jobs/${JOB_ID}/dispatch.json，差役产物在 artifacts/${JOB_ID}/，差役退出码 ${RC}。
 请依《御史守则》独立核验：对照 dispatch.json 的『验收』逐条实跑复核（不许只看差役自述），然后写 jobs/$JOB_ID/receipt.json，字段：job_id、执行者、exit_code、产物、摘要、裁定、驳回理由、签署时间。
 裁定只能是 准结 或 驳回。你只核验，不得改动产物、不得替差役补做。写完只回一句：已签结。"
 if ! run_to 900 openclaw agent --agent yushidafu -m "$YS_MSG" >> "$RUNLOG" 2>&1; then
