@@ -1,0 +1,10 @@
+# 运行时数据不入库
+jobs/*
+!jobs/.gitkeep
+artifacts/*
+!artifacts/.gitkeep
+var/
+
+# 系统垃圾
+.DS_Store
+*.log

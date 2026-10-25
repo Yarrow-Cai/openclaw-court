@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "receipt.json — 御史大夫签结",
+  "type": "object",
+  "required": ["job_id", "执行者", "exit_code", "产物", "摘要", "裁定", "签署时间"],
+  "additionalProperties": false,
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "pattern": "^JOB-[0-9]{8}-[0-9]{3}$"
+    },
+    "执行者": {
+      "type": "string",
+      "enum": ["pi", "codex", "claude", "kimi", "taisui"]
+    },
+    "exit_code": {
+      "type": "integer",
+      "description": "差役真实退出码，不得改写"
+    },
+    "产物": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "相对仓库根的产物路径"
+    },
+    "摘要": {
+      "type": "string",
+      "maxLength": 300,
+      "description": "做了什么、结果如何，一句话"
+    },
+    "裁定": {
+      "type": "string",
+      "enum": ["准结", "驳回"]
+    },
+    "驳回理由": {
+      "type": ["string", "null"],
+      "description": "裁定为驳回时必填"
+    },
+    "签署时间": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "if": {
+    "properties": { "裁定": { "const": "驳回" } }
+  },
+  "then": {
+    "required": ["驳回理由"],
+    "properties": { "驳回理由": { "type": "string", "minLength": 1 } }
+  }
+}

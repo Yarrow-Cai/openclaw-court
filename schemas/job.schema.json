@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "job.json — 太子所立之案",
+  "type": "object",
+  "required": ["job_id", "旨意", "下旨时间", "请求人", "状态"],
+  "additionalProperties": false,
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "pattern": "^JOB-[0-9]{8}-[0-9]{3}$",
+      "description": "JOB-YYYYMMDD-NNN"
+    },
+    "旨意": {
+      "type": "string",
+      "minLength": 1,
+      "description": "大王原话照录，不得改写"
+    },
+    "下旨时间": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "请求人": {
+      "type": "string",
+      "description": "飞书 open_id 或称谓"
+    },
+    "期望验收": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "可空，由丞相补全"
+    },
+    "状态": {
+      "type": "string",
+      "enum": ["已立案", "已派差", "执行中", "待签结", "已签结", "已驳回", "已超时", "已撤回"]
+    },
+    "延期记录": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "准予时间": { "type": "string", "format": "date-time" },
+          "新的期限": { "type": "string" },
+          "缘由": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "dispatch.json — 丞相所出差遣单",
+  "type": "object",
+  "required": ["job_id", "差役", "任务", "验收", "期限", "产物目录"],
+  "additionalProperties": false,
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "pattern": "^JOB-[0-9]{8}-[0-9]{3}$"
+    },
+    "差役": {
+      "type": "string",
+      "enum": ["pi", "codex", "claude", "kimi", "taisui"]
+    },
+    "任务": {
+      "type": "string",
+      "minLength": 4,
+      "description": "动词开头的具体指令，不是愿景"
+    },
+    "验收": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" },
+      "description": "必须可机器判定，如『55423 返回 200』"
+    },
+    "期限": {
+      "type": "string",
+      "pattern": "^[0-9]+(m|h)$"
+    },
+    "产物目录": {
+      "type": "string",
+      "pattern": "^artifacts/JOB-[0-9]{8}-[0-9]{3}/$"
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 1,
+      "description": "同一 job 的第几次差遣；连续 3 次驳回由御史置已超时"
+    }
+  }
+}
